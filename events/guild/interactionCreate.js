@@ -1,4 +1,5 @@
 module.exports = (client, discord, interaction) =>{
+    //COMANDOS SLASH
     if(interaction.isCommand()){
         const command =  client.slash.get(interaction.commandName);
         
@@ -8,4 +9,7 @@ module.exports = (client, discord, interaction) =>{
             console.log("Error en la creacion de la interaccion " + error);
         }
     }
+
+    //BOTONES
+
 }

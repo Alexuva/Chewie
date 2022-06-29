@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const discord = require('discord.js');
-const { Client, Intents } = discord;
+const { Client, Intents, MessageButton } = discord;
 const client = new Client({
     intents:[ 'GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES', 'GUILD_MEMBERS', 'GUILD_VOICE_STATES']
 })

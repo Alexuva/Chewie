@@ -2,6 +2,8 @@ const fs = require('fs');
 let slash = [];
 
 module.exports = (client, discord) =>{
+    console.log("-----------------COMANDOS-----------------")
+    console.log("Comandos cargados: ")
     
     fs.readdirSync("./slashCommands/").forEach((dir) => { 
         const commands = fs
@@ -15,7 +17,7 @@ module.exports = (client, discord) =>{
                 if(scmd.name){
                     client.slash.set(scmd.name, scmd);
                     slash.push(scmd);
-                    console.log(`Commando: ${scmd.name} cargado`);
+                    console.log(`- ${scmd.name}`);
                 }else{
                     console.log(`Error, no se encuentra nombre en el commando ${file}`);
                 };
