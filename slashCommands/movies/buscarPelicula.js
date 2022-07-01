@@ -168,7 +168,7 @@ module.exports = {
                         .setStyle("LINK")
                     
                     const btnRest = new MessageButton()
-                        .setCustomId('resto')
+                        .setCustomId('restop')
                         .setLabel(`Ver resto Resultados`)
                         .setStyle("PRIMARY")
                     
@@ -194,7 +194,7 @@ module.exports = {
                 }else{
 
                     const btnRest = new MessageButton()
-                        .setCustomId('resto')
+                        .setCustomId('restop')
                         .setLabel(`Ver resto Resultados`)
                         .setStyle("PRIMARY");
 
