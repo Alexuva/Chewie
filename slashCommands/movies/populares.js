@@ -25,7 +25,7 @@ module.exports = {
         async function getType(tipo){
             try{
                 if(tipo){
-                    switch(tipo){
+                    switch(tipo.toLowerCase()){
                         case 'pelicula':
                             return tipo = "movie";
                         break;
