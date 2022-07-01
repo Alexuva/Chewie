@@ -5,12 +5,12 @@ const MDKEY = (process.env.MD);
 const urlMD = "https://api.themoviedb.org/3/";
 
 module.exports = {
-    name: "buscarpelicula",
-    description: "Busca una película y su información",
+    name: "buscarserie",
+    description: "Busca una serie y su información",
     options: [
         {
             name: "titulo", 
-            description: "Indica el titulo de la pelicula", 
+            description: "Indica el titulo de la serie", 
             type: "STRING",
             required: true,
             ephemeral: false
@@ -26,7 +26,7 @@ module.exports = {
         //REQUEST DEL TITULO Y LA CLAVE DE ERROR
         async function requestHandler(url, key, titulo){
             try{
-                const { statusCode, body } = await request(`${url}search/movie?api_key=${key}&language=es-ES&query=${titulo}`)
+                const { statusCode, body } = await request(`${url}search/tv?api_key=${key}&language=es-ES&query=${titulo}`)
                 const resultado = [statusCode, body];
                 return resultado;
             }
@@ -38,7 +38,7 @@ module.exports = {
         //REQUEST DE LOS WATCH PROVIDERS
         async function watchHandler(url, key, id){
             try{
-                const { body } = await request(`${url}movie/${id}/watch/providers?api_key=${key}&language=es-ES`)
+                const { body } = await request(`${url}tv/${id}/watch/providers?api_key=${key}&language=es-ES`)
                 const { results } = await body.json();
                 const { ES } = results;
                 return ES;
@@ -86,12 +86,12 @@ module.exports = {
             let info = resultado[1];
             let infoJSON = await info.json()
             
-            let pelicula;
+            let serie;
             if(infoJSON.results.length > 0){
                 const { 
                     id,
-                    title, 
-                    release_date, 
+                    name, 
+                    first_air_date, 
                     overview,
                     poster_path
                 } = infoJSON.results[0];
@@ -100,16 +100,16 @@ module.exports = {
 
                 if(resultado){
                     const { link, flatrate } = resultado;
-                    return pelicula = {"link":link, "flatrate":flatrate, "title":title, "release_date":release_date, "overview":overview, "poster_path":poster_path};
+                    return serie = {"link":link, "flatrate":flatrate, "title":name, "release_date":first_air_date, "overview":overview, "poster_path":poster_path};
                 }else{
-                    return pelicula = {"title":title, "release_date":release_date, "overview":overview, "poster_path":poster_path};
+                    return serie = {"title":name, "release_date":first_air_date, "overview":overview, "poster_path":poster_path};
                 }
 
             }else if(infoJSON.results.length <= 0){
-               return pelicula = "No se han obtenido resultados"
+               return serie = "No se han obtenido resultados"
             };
             
-            return pelicula;
+            return serie;
 
         }
 
@@ -118,17 +118,17 @@ module.exports = {
             let info = resultado[1];
             let infoJSON = await info.json()
           
-            let peliculas='';
+            let series='';
             if(infoJSON.results.length > 0){
                  infoJSON.results.forEach((element, index) => {
-                    return peliculas += `*${index+1}.* ***${element.title}***\n`;
+                    return series += `*${index+1}.* ***${element.name}***\n`;
                  });
 
              }else if(infoJSON.results.length <= 0){
-                 return peliculas = "No se han obtenido resultados"
+                 return series = "No se han obtenido resultados"
             }
 
-            return peliculas;
+            return series;
         }
 
         //IMPRIMIR RESULTADO DE PELICULA
@@ -168,7 +168,7 @@ module.exports = {
                         .setStyle("LINK")
                     
                     const btnRest = new MessageButton()
-                        .setCustomId('resto')
+                        .setCustomId('restos')
                         .setLabel(`Ver resto Resultados`)
                         .setStyle("PRIMARY")
                     
@@ -194,7 +194,7 @@ module.exports = {
                 }else{
 
                     const btnRest = new MessageButton()
-                        .setCustomId('resto')
+                        .setCustomId('restos')
                         .setLabel(`Ver resto Resultados`)
                         .setStyle("PRIMARY");
 
@@ -228,7 +228,7 @@ module.exports = {
             //Guardamos la info
             const info = await resultHandler(resultado);
             const infos = await resultadosHandler(resultados);
-            client.peliculas = infos;
+            client.series = infos;
             //Imprimimos la info
             await mensaje(info);
         }else{

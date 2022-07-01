@@ -8,9 +8,17 @@ module.exports = (client, discord, interaction, infos) =>{
             console.log(`Error en la creacion de la interaccion`);
         }
     }else if(interaction.isButton()){
-        if(interaction.customId === 'resto'){
-            let peliculas = client.peliculas;
-            return interaction.reply({content:`${peliculas}`});
+        switch(interaction.customId){
+            case 'restop':
+                let peliculas = client.peliculas;
+                return interaction.reply({content:`${peliculas}`});
+            break
+
+            case 'restos':
+                let series = client.series;
+                return interaction.reply({content: `${series}`});
+            break
         }
+
     }
 }
