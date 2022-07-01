@@ -15,9 +15,12 @@ module.exports = {
         const cantidad = interaction.options.getNumber("cantidad");
         const canal = interaction.channel;
         const messages = canal.messages.fetch();
-
-        canal.bulkDelete(cantidad, true);
-
-        interaction.reply( {content: "Borrando mensajes...", ephemeral: false} );
+        const { _roles } = interaction.member;
+        if( (_roles.includes("694242747481325659")) || (_roles.includes("694242801180999680")) ){
+            canal.bulkDelete(cantidad, true);
+            interaction.reply( {content: "Borrando mensajes...", ephemeral: false} );
+        }else{
+            interaction.reply( {content: "No tienes los permisos suficientes", ephemeral: false} );
+        }
     }
 };
